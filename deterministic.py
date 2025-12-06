@@ -32,7 +32,7 @@ class OutlineCheckerType(BaseModel):
 
 
 outline_checker_agent=Agent(name="checker", 
-instrctions="Read the given story outline, and judge the quality. Also, determine if it is a scifi story.",
+instructions="Read the given story outline, and judge the quality. Also, determine if it is a scifi story.",
 output_type=OutlineCheckerType)
 
 story_agent=Agent(name="story_Agent", instructions="Write a short story based on the given outline.",
@@ -44,9 +44,9 @@ async def main():
 
     # Ensure the entire workflow is a single trace
     with trace("Deterministic story flow"):
-        story_outline=Runner.run(story_line_agent, input_prompt)
+        story_outline=await Runner.run(story_line_agent, input_prompt)
         
-        outline_checker_result=Runner.run(outline_checker_agent,story_outline.final_output)
+        outline_checker_result=await Runner.run(outline_checker_agent,story_outline.final_output)
         
         # check datatype of the output from above agent
         
@@ -64,9 +64,9 @@ async def main():
             
         print("Outline has good quality")
         
-        story=Agent(story_agent,story_outline.final_output)
+        story=await Runner.run(story_agent,story_outline.final_output)
         
-        print("story: /n {story.final_output}")
+        print(f"story: /n {story.final_output}")
         
         
 if __name__=="__main__":
