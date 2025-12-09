@@ -45,10 +45,8 @@ async def main():
         #run the agent
         with trace("trace_name",group_id=conv_id):
             result=Runner.run_streamed(agent,input=inputs)   
-        #    print(result)
     #under a for loop
             async for event in result.stream_events():
-
                 if not isinstance(event, RawResponsesStreamEvent):
                     continue
                 data=event.data
