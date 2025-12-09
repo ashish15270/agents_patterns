@@ -14,6 +14,8 @@ agent = result.current_agent	Switch to the routed agent
 
 import asyncio
 import uuid
+from open_ai_env import env_func
+env_func()
 
 from openai.types.responses import ResponseContentPartDoneEvent, ResponseTextDeltaEvent
 
@@ -24,27 +26,28 @@ spanish_agent=Agent(name="french_agent", instructions="you only speak spanish")
 english_agent=Agent(name="french_agent", instructions="you only speak english")
 
 triage_agent=Agent(name="triage_agent",
-instructions="Handoff to the appropriate agent based on the language of the request."
-handoffs=[french_Agent,spanish_agent,english_agent])
+instructions="Handoff to the appropriate agent based on the language of the request.",
+handoffs=[french_agent,spanish_agent,english_agent])
 
 async def main():
     # get a uuuid for conversation
     conv_id=str(uuid.uuid4().hex[:16])
     
     #construct inputs
-    inputs: list[TresponseInputItem]=[{"role":"user","content":msg}]
     msg = input("Hi! We speak French, Spanish and English. How can I help? ")
+    inputs: list[TResponseInputItem] = [{"content": msg, "role": "user"}]
     agent = triage_agent
-    
+
+
     #start while loop
     while True:
         # creare trace
         #run the agent
         with trace("trace_name",group_id=conv_id):
-            result=Runner.run(agent,input=inputs)   
+            result=Runner.run_streamed(agent,input=inputs)   
     #under a for loop
             async for event in result.stream_events():
-                if not isinstance(event, RawResponseSrteamEvent):
+                if not isinstance(event, RawResponsesStreamEvent):
                     continue
                 data=event.data
 
