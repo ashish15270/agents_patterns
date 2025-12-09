@@ -52,7 +52,7 @@ async def main():
                     print(data.delta,end="",flush=True)
                 elif isinstance(data, ResponseContentPartDoneEvent):
                     print()
-                #update_inputs
+            #update_inputs
             inputs=result.to_input_list()
             #get user message
             msg=input("\nYour turn: ")      
