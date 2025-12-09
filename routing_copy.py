@@ -19,7 +19,7 @@ env_func()
 
 from openai.types.responses import ResponseContentPartDoneEvent, ResponseTextDeltaEvent
 
-from agents import Agent, RawResponsesStreamEvent, Runner, TResponseInputItem, trace
+from agents import Agent, RawResponsesStreamEvent, Runner, TResponseInputItem, trace, ItemHelpers, MessageOutputItem
 
 french_agent=Agent(name="french_agent", instructions="you only speak french")
 spanish_agent=Agent(name="french_agent", instructions="you only speak spanish")
@@ -44,24 +44,13 @@ async def main():
         # creare trace
         #run the agent
         with trace("trace_name",group_id=conv_id):
-            result=Runner.run_streamed(agent,input=inputs)   
+            result=await Runner.run(agent,msg)   
     #under a for loop
-            async for event in result.stream_events():
-                if not isinstance(event, RawResponsesStreamEvent):
-                    continue
-                data=event.data
-
-                if isinstance(data, ResponseTextDeltaEvent):
-                    print(data.delta,end="",flush=True)
-                elif isinstance(data, ResponseContentPartDoneEvent):
-                    print()
-            #update_inputs
-            inputs=result.to_input_list()
-            #get user message
-            msg=input("\nYour turn: ")      
-            inputs.append({"role":"user","content":msg})
-            #switch agent
-            agent=result.current_agent      
+            for item in result.new_items:
+                if isinstance(item, MessageOutputItem):
+                    text=ItemHelpers.text_message_output(item)
+                    if text:
+                        print(f"  - Translation step: {text}")     
 
 
 if __name__=="__main__":
