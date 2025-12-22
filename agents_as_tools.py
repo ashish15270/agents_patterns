@@ -4,7 +4,7 @@ env_func()
 from agents import Agent, Runner, trace, MessageOutputItem, ItemHelpers
 import asyncio
 
-french_agent=Agent(name="french_agent",instructions="You translate the user's message to Spafrenchnish", handoff_description="An english to french translator")
+french_agent=Agent(name="french_agent",instructions="You translate the user's message to french", handoff_description="An english to french translator")
 italian_agent=Agent(name="italian_agent", instructions="You translate the user's message to italian",handoff_description="An english to italian translator")
 spanish_agent=Agent(name="spanish_agent", instructions="You translate the user's message to Spanish",handoff_description="An english to spanish translator")
 
