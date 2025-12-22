@@ -20,21 +20,6 @@ If you're curious about how to build autonomous, tool‑using, multi‑step AI a
 
 ---
 
-## 📁 Repository Structure
-
-.
-├── src/  
-│   ├── basic_agent.py  
-│   ├── tool_use_agent.py  
-│   ├── multi_step_agent.py  
-│   └── ...  
-├── README.md  
-├── pyproject.toml  
-└── uv.lock  
-
-Each script in `src/` corresponds to a specific agent pattern or concept.
-
----
 
 ## ⚙️ Setup & Installation (using uv)
 
