@@ -1,0 +1,31 @@
+[{'content': 'hi', 'role': 'user'}, {'id': 'msg_0c58772315dd198700693827772b4c81939e8df15ac1cf5703', 
+'content': [{'annotations': [], 'text': 'Hello! How can I help you today?', 'type': 'output_text', 'logprobs': []}], 
+'role': 'assistant', 'status': 'completed', 'type': 'message'}, {'role': 'user', 'content': 'hello'}, {'id': 'msg_0c58772315dd198700693827936fc881939a8126d194280d59', 
+'content': [{'annotations': [], 'text': 'Hi again! What can I do for you today?', 'type': 'output_text', 'logprobs': []}], 
+'role': 'assistant', 'status': 'completed', 'type': 'message'}]
+
+
+
+agent.final_output -- use this to send input from one agent to another
+latest_outline=ItemHelpers.text_message_outputs(outline.new_items)   # extract required output from llm output object
+
+for item in orchestration_output.new_items:           #result.new_items should be of type MessageOutputItem
+        if isinstance(item,MessageOutputItem):
+            text=ItemHelpers.text_message_output(item)
+
+
+
+TResponseInputItem -- send message to model [{"role": "user", "content": msg}], use to_input_items() on agent_run to convert to this dataype
+RawResponsesStreamEvent -- check if the streamed event is a response
+ResponseTextDeltaEvent -- check if the event.data is part resonse
+ResponseContentPartDoneEvent -- check if event.data has completed
+
+for chat agent
+result.to_input_list()
+inputs.append({"content": user_msg, "role": "user"})
+
+
+
+
+
+
