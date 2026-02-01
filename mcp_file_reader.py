@@ -1,4 +1,4 @@
-import asyncio, os, sgutil
+import asyncio, os, shutil
 from agents import Agent, Runner, gen_trace_id, trace
 from agent.mcp import MCPServer, MCPServerStdio
 
@@ -15,8 +15,8 @@ async def run(mcp_server: MCPServer):
     # ask about my favourite book
     msg="what is my favourite book?"
     print("running "+msg)
-    fav_book=runner.run(agent,msg)
-    print(fav_boo.final_output)
+    fav_book=Runner.run(agent,msg)
+    print(fav_book.final_output)
     
     
     # Ask a question that reads then reasons
@@ -28,7 +28,7 @@ async def run(mcp_server: MCPServer):
     
 async def main():
     current_dir=os.path.dirname(os.path.abspath(__file__))
-    sample_dir=os.path.join(current_dir+sample_path)
+    sample_dir=os.path.join(current_dir+"sample_files")
     
     with MCPServerStdio as (
     name="file system server, via npx",
